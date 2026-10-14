@@ -72,6 +72,7 @@ export const experience: Employer[] = [
   },
   {
     name: "Navicon",
+    url: "https://navicons.com",
     about: "IT consulting and systems integration company",
     roles: [
       {
