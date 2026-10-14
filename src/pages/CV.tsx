@@ -2,13 +2,30 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { site } from "../data/site";
 import { competitions, education, experience, skills, type Employer } from "../data/cv";
 
+/** Название компании: ссылка, если у неё есть url */
+function OrgName({ name, url }: { name: string; url?: string }) {
+  if (!url) return <>{name}</>;
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="underline decoration-rule decoration-2 underline-offset-[0.28em] transition-colors hover:text-accent hover:decoration-accent-bright print:no-underline"
+    >
+      {name}
+    </a>
+  );
+}
+
 function EmployerBlock({ employer }: { employer: Employer }) {
   const ladder = employer.roles.length > 1;
 
   return (
     <article className="border-t border-rule pb-10 pt-6 print:pb-3 print:pt-3">
       <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 print:[break-after:avoid]">
-        <h3 className="font-display m-0 text-3xl font-bold tracking-tight print:text-[14pt]">{employer.name}</h3>
+        <h3 className="font-display m-0 text-3xl font-bold tracking-tight print:text-[14pt]">
+          <OrgName name={employer.name} url={employer.url} />
+        </h3>
         <p className="m-0 text-[1rem] italic text-muted">{employer.about}</p>
       </header>
 
@@ -141,7 +158,9 @@ export default function CV() {
             </h2>
             <article className="border-t border-rule pt-6 print:pt-3">
               <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <h3 className="font-display m-0 text-3xl font-bold tracking-tight print:text-[14pt]">{education.school}</h3>
+                <h3 className="font-display m-0 text-3xl font-bold tracking-tight print:text-[14pt]">
+                  <OrgName name={education.school} url={education.url} />
+                </h3>
                 <p className="m-0 text-[1rem] italic text-muted">{education.about}</p>
               </header>
               <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 print:mt-1">

@@ -14,6 +14,8 @@ export type Role = {
 
 export type Employer = {
   name: string;
+  /** Ссылка на компанию (заголовок становится ссылкой). Без url – обычный текст */
+  url?: string;
   /** Одна строка для иностранного читателя: что это за компания */
   about: string;
   roles: Role[];
@@ -22,6 +24,7 @@ export type Employer = {
 export const experience: Employer[] = [
   {
     name: "Avito",
+    url: "https://en.wikipedia.org/wiki/Avito.ru",
     about: "Russia's largest online classifieds platform",
     roles: [
       {
@@ -84,6 +87,7 @@ export const experience: Employer[] = [
   },
   {
     name: "Tinkoff Bank (now T-Bank)",
+    url: "https://en.wikipedia.org/wiki/T-Bank",
     about: "One of Russia's largest digital banks",
     roles: [
       {
@@ -98,6 +102,7 @@ export const experience: Employer[] = [
   },
   {
     name: "ITMO University",
+    url: "https://en.itmo.ru",
     about: "Leading Russian technical university",
     roles: [
       {
@@ -115,6 +120,7 @@ export const experience: Employer[] = [
 
 export const education = {
   school: "ITMO University",
+  url: "https://en.itmo.ru",
   about: "Leading Russian technical university",
   degree: "Bachelor's",
   field: "Digital Humanities (Artificial Intelligence in Humanities)",
