@@ -4,6 +4,8 @@ export const site = {
   firstName: "Viktoriia",
   lastName: "Rudnikova",
   role: "Data generalist",
+  /** Строка под именем на странице CV, как в PDF-версии */
+  cvRoles: "Analytics Engineer, DWH Analyst, Data Engineer",
   location: "Saint Petersburg, Russia",
   email: "vrudnikova34@gmail.com",
   linkedin: "https://linkedin.com/in/lexoz-bedra",

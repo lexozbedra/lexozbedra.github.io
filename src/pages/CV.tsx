@@ -6,31 +6,41 @@ function EmployerBlock({ employer }: { employer: Employer }) {
   const ladder = employer.roles.length > 1;
 
   return (
-    <article className="print-avoid-break border-t border-rule pb-10 pt-6">
-      <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-        <h3 className="font-display m-0 text-3xl font-bold tracking-tight">{employer.name}</h3>
+    <article className="border-t border-rule pb-10 pt-6 print:pb-3 print:pt-3">
+      <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 print:[break-after:avoid]">
+        <h3 className="font-display m-0 text-3xl font-bold tracking-tight print:text-[14pt]">{employer.name}</h3>
         <p className="m-0 text-[1rem] italic text-muted">{employer.about}</p>
       </header>
 
-      <ol className={["m-0 mt-6 list-none space-y-9 p-0", ladder ? "border-l border-rule pl-6 sm:pl-8" : ""].join(" ")}>
+      <ol
+        className={[
+          "m-0 mt-6 list-none space-y-9 p-0 print:mt-2 print:space-y-4",
+          ladder ? "border-l border-rule pl-6 sm:pl-8 print:pl-4" : "",
+        ].join(" ")}
+      >
         {employer.roles.map((role) => (
           <li key={role.title + role.period} className="relative">
             {ladder && (
               <span
                 aria-hidden="true"
-                className="absolute -left-[1.9rem] top-[0.7rem] block h-2.5 w-2.5 rounded-full bg-accent-bright sm:-left-[2.4rem]"
+                className="absolute -left-[1.9rem] top-[0.7rem] block h-2.5 w-2.5 rounded-full bg-accent-bright sm:-left-[2.4rem] print:-left-[1.3rem] print:top-[0.45rem]"
                 style={{ boxShadow: "0 0 0 4px var(--bg)" }}
               />
             )}
-            <div className="flex flex-wrap items-baseline justify-between gap-x-6">
-              <h4 className="font-display m-0 text-xl font-semibold">{role.title}</h4>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-6 print:[break-after:avoid]">
+              <h4 className="font-display m-0 text-xl font-semibold print:text-[11pt]">
+                {role.title}
+                {role.team && <span className="font-normal text-muted"> ({role.team})</span>}
+              </h4>
               <p className="tnum m-0 text-[1rem] text-muted">{role.period}</p>
             </div>
-            {role.team && <p className="m-0 text-[1rem] italic text-muted">{role.team}</p>}
-            {role.summary && <p className="mb-0 mt-3 text-[1.05rem]">{role.summary}</p>}
-            <ul className="mb-0 mt-3 list-disc space-y-1.5 pl-5 text-[1.05rem] marker:text-accent-bright">
+            {role.context && <p className="m-0 text-[1rem] italic text-muted">{role.context}</p>}
+            {role.summary && <p className="mb-0 mt-3 text-[1.05rem] print:mt-1">{role.summary}</p>}
+            <ul className="mb-0 mt-3 list-disc space-y-1.5 pl-5 text-[1.05rem] marker:text-accent-bright print:mt-1 print:space-y-0.5">
               {role.bullets.map((b) => (
-                <li key={b}>{b}</li>
+                <li key={b} className="print-avoid-break">
+                  {b}
+                </li>
               ))}
             </ul>
           </li>
@@ -44,15 +54,20 @@ export default function CV() {
   useDocumentTitle("CV");
 
   return (
-    <div className="mx-auto max-w-6xl px-5 pt-6 sm:px-8 sm:pt-12">
+    <div className="mx-auto max-w-6xl px-5 pt-6 sm:px-8 sm:pt-12 print:max-w-none print:px-0 print:pt-0">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display m-0 text-6xl font-extrabold tracking-tight sm:text-8xl" style={{ fontStretch: "80%" }}>
+          {/* "CV" – заголовок страницы на экране; в PDF вместо него главным становится имя */}
+          <h1
+            className="font-display m-0 text-6xl font-extrabold tracking-tight sm:text-8xl print:hidden"
+            style={{ fontStretch: "80%" }}
+          >
             CV
           </h1>
-          <p className="mb-0 mt-3 text-[1.25rem] text-muted">
-            {site.name}, {site.role.toLowerCase()}: analytics engineer, BI developer, analyst
+          <p className="font-display mb-0 mt-4 text-3xl font-bold tracking-tight sm:text-4xl print:mt-0 print:text-[26pt]">
+            {site.name}
           </p>
+          <p className="mb-0 mt-1 text-[1.2rem] text-muted print:text-[11pt]">{site.cvRoles}</p>
         </div>
         <button
           type="button"
@@ -63,16 +78,17 @@ export default function CV() {
         </button>
       </div>
 
-      <div className="mt-12 grid gap-x-16 gap-y-12 lg:grid-cols-[16rem_minmax(0,1fr)]">
-        <aside className="lg:sticky lg:top-8 lg:self-start">
-          <section>
-            <h2 className="font-display m-0 text-xl font-bold">Contact</h2>
-            <p className="mb-0 mt-3 text-[1.05rem] leading-snug">
+      {/* На экране: боковая колонка слева. В PDF: одна колонка, контакты и навыки компактным блоком сверху */}
+      <div className="mt-12 grid gap-x-16 gap-y-12 lg:grid-cols-[16rem_minmax(0,1fr)] print:mt-5 print:grid-cols-1 print:gap-y-5">
+        <aside className="lg:sticky lg:top-8 lg:self-start print:static print:grid print:grid-cols-2 print:gap-x-8 print:gap-y-3">
+          <section className="print:order-1">
+            <h2 className="font-display m-0 text-xl font-bold print:text-[12pt]">Contact</h2>
+            <p className="mb-0 mt-3 text-[1.05rem] leading-snug print:mt-1">
               {site.location}
               <br />
               <span className="text-muted">Planning to relocate to Europe</span>
             </p>
-            <p className="mb-0 mt-3 space-y-1 text-[1.05rem]">
+            <p className="mb-0 mt-3 space-y-1 text-[1.05rem] print:mt-1 print:flex print:flex-wrap print:gap-x-3 print:space-y-0 print:text-[9pt]">
               <a className="prose-link block break-all" href={`mailto:${site.email}`}>
                 {site.email}
               </a>
@@ -85,11 +101,11 @@ export default function CV() {
             </p>
           </section>
 
-          <section className="mt-10">
-            <h2 className="font-display m-0 text-xl font-bold">Skills</h2>
-            <dl className="m-0 mt-3 divide-y divide-rule border-y border-rule">
+          <section className="mt-10 print:order-3 print:col-span-2 print:mt-0">
+            <h2 className="font-display m-0 text-xl font-bold print:text-[12pt]">Skills</h2>
+            <dl className="m-0 mt-3 divide-y divide-rule border-y border-rule print:mt-1 print:grid print:grid-cols-3 print:gap-x-6 print:divide-y-0 print:border-y-0">
               {skills.map((s) => (
-                <div key={s.label} className="py-3">
+                <div key={s.label} className="py-3 print:py-1">
                   <dt className="font-display text-[0.95rem] font-semibold text-accent">{s.label}</dt>
                   <dd className="m-0 text-[1rem] leading-snug">{s.items}</dd>
                 </div>
@@ -97,8 +113,8 @@ export default function CV() {
             </dl>
           </section>
 
-          <section className="mt-10">
-            <h2 className="font-display m-0 text-xl font-bold">Competitions</h2>
+          <section className="mt-10 print:order-2 print:mt-0">
+            <h2 className="font-display m-0 text-xl font-bold print:text-[12pt]">Competitions</h2>
             {competitions.map((c) => (
               <p key={c.name} className="mb-0 mt-3 text-[1.05rem] leading-snug">
                 <span className="font-display font-semibold">{c.name}</span>, {c.result.toLowerCase()}
@@ -111,21 +127,25 @@ export default function CV() {
 
         <div>
           <section>
-            <h2 className="font-display mb-6 mt-0 text-3xl font-extrabold tracking-tight">Experience</h2>
+            <h2 className="font-display mb-6 mt-0 text-3xl font-extrabold tracking-tight print:mb-1 print:text-[16pt]">
+              Experience
+            </h2>
             {experience.map((e) => (
               <EmployerBlock key={e.name} employer={e} />
             ))}
           </section>
 
           <section className="print-avoid-break">
-            <h2 className="font-display mb-6 mt-6 text-3xl font-extrabold tracking-tight">Education</h2>
-            <article className="border-t border-rule pt-6">
+            <h2 className="font-display mb-6 mt-6 text-3xl font-extrabold tracking-tight print:mb-1 print:mt-2 print:text-[16pt]">
+              Education
+            </h2>
+            <article className="border-t border-rule pt-6 print:pt-3">
               <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <h3 className="font-display m-0 text-3xl font-bold tracking-tight">{education.school}</h3>
+                <h3 className="font-display m-0 text-3xl font-bold tracking-tight print:text-[14pt]">{education.school}</h3>
                 <p className="m-0 text-[1rem] italic text-muted">{education.about}</p>
               </header>
-              <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6">
-                <h4 className="font-display m-0 text-xl font-semibold">
+              <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 print:mt-1">
+                <h4 className="font-display m-0 text-xl font-semibold print:text-[11pt]">
                   {education.degree}, {education.field}
                 </h4>
                 <p className="tnum m-0 text-[1rem] text-muted">{education.period}</p>

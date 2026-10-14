@@ -1,8 +1,12 @@
 // Содержимое CV. Правится здесь, страница /cv собирается из этих данных.
 
 export type Role = {
+  /** Должность, как в PDF-версии CV */
   title: string;
+  /** Команда в скобках после должности: "Analytics Engineer (TCT & OrgDev Analytics)" */
   team?: string;
+  /** Строка под должностью (курсивом), например расшифровка команды */
+  context?: string;
   period: string;
   summary?: string;
   bullets: string[];
@@ -49,7 +53,8 @@ export const experience: Employer[] = [
       },
       {
         title: "Intern Analytics Engineer",
-        team: "HR data warehouse (sensitive domains: HR, Legal, Procurement, Finance)",
+        team: "HRDWH",
+        context: "HRDWH – Data Warehouse Team for sensitive domains (HR, Legal, Procurement, Finance)",
         period: "Mar 2025 – Sep 2025",
         summary:
           "Led the development of a data warehouse and reporting system for the Legal department.",
@@ -84,7 +89,7 @@ export const experience: Employer[] = [
     roles: [
       {
         title: "Intern DWH/BI Analyst",
-        team: "Data Discovery (Center of Excellence)",
+        context: "Data Discovery Team (Center of Excellence)",
         period: "Jul 2024 – Oct 2024",
         bullets: [
           "Developed a tool that automatically generates interactive dashboards for business process analysis using process mining.",
@@ -97,7 +102,8 @@ export const experience: Employer[] = [
     about: "Leading Russian technical university",
     roles: [
       {
-        title: "Data Scientist / Analyst (Research Intern)",
+        title: "Data Scientist/Analyst",
+        team: "Research Intern",
         period: "Sep 2023 – Jun 2024",
         bullets: [
           "Development of libraries for advanced machine learning methods.",
@@ -123,8 +129,7 @@ export const skills: { label: string; items: string }[] = [
   { label: "Data engineering", items: "Apache Airflow, dbt, Apache Kafka, Amazon S3" },
   { label: "BI", items: "Redash, Apache Superset, Tableau, Pyramid" },
   { label: "Tools", items: "Git, Docker, Bash" },
-  { label: "Also", items: "Web (React), Android (Jetpack Compose), math statistics, machine learning" },
-  { label: "Languages", items: "English (C1)" },
+  { label: "Other", items: "Web (React), Android (Jetpack Compose), math statistics, machine learning, English (C1)" },
 ];
 
 export const competitions = [

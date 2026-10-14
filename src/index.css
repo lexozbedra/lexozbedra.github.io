@@ -149,20 +149,29 @@ body {
 /* ------------------------------------------------------------------
    Печать: CV из браузера в PDF (Cmd+P)
    ------------------------------------------------------------------ */
+@page {
+  size: A4;
+  margin: 14mm 14mm 16mm;
+}
+
 @media print {
+  /* Три селектора, чтобы по специфичности перебить тёмную тему (и системную, и выбранную вручную) */
   :root,
+  :root:not([data-theme="light"]),
   :root[data-theme="dark"] {
     --bg: #fff;
     --ink: #1b1330;
     --muted: #4a4360;
     --rule: #cfc8df;
     --accent: #c21e68;
+    --accent-bright: #e0307c;
     --blue: #3d3fe0;
     --tint: #f1edf9;
+    color-scheme: light;
   }
   body {
-    font-size: 10.5pt;
-    line-height: 1.5;
+    font-size: 9.5pt;
+    line-height: 1.42;
   }
   .no-print {
     display: none !important;
