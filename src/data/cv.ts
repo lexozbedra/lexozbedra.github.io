@@ -27,8 +27,7 @@ export const experience: Employer[] = [
       {
         title: "Analytics Engineer",
         team: "TCT & OrgDev Analytics",
-        // TODO: уточнить дату окончания
-        period: "Mar 2026 – ???",
+        period: "Mar 2026 – Oct 2026",
         summary:
           "Part of the team behind analytics for the employee journey: performance review, goal setting, office analytics, education and development. The only analytics engineer on the team, responsible for the whole data transformation layer of the domain – from receiving data from source systems to delivering data marts for dashboards and research.",
         bullets: [
