@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Viktoriia Rudnikova – Data generalist</title>
+    <meta
+      name="description"
+      content="Viktoriia Rudnikova – analytics engineer, BI developer and analyst. Data warehouses, pipelines and dashboards. Based in Saint Petersburg, relocating to Europe."
+    />
+    <meta property="og:title" content="Viktoriia Rudnikova – Data generalist" />
+    <meta
+      property="og:description"
+      content="Analytics engineer, BI developer and analyst. I turn messy source data into datasets people can trust."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lexozbedra.github.io/" />
+    <meta name="theme-color" content="#F7F5FC" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#130E1F" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Шрифты подключены локально через @fontsource (см. src/main.tsx), внешних запросов нет -->
+
+    <!-- Применяем сохранённую тему до отрисовки, чтобы не было вспышки -->
+    <script>
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

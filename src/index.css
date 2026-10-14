@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Цвета – токены. Светлая тема на :root, тёмная переопределяет те же имена.
+   Тема следует системе, а переключатель выставляет data-theme на <html>.
+   ------------------------------------------------------------------ */
+:root {
+  --bg: #f7f5fc; /* лиловатая бумага */
+  --ink: #1b1330; /* баклажан вместо чёрного */
+  --muted: #5e5675;
+  --rule: #dad3ea;
+  --accent: #c21e68; /* розовый для текста и ссылок */
+  --accent-bright: #e0307c; /* розовый для линий и крупных форм */
+  --blue: #3d3fe0; /* ультрамарин: "чистые" данные */
+  --tint: #ece6f8; /* лёгкая подложка */
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #130e1f;
+    --ink: #f1ecfb;
+    --muted: #a89fc2;
+    --rule: #2d2342;
+    --accent: #ff6aa9;
+    --accent-bright: #ff5da2;
+    --blue: #8c8cff;
+    --tint: #1d1530;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #130e1f;
+  --ink: #f1ecfb;
+  --muted: #a89fc2;
+  --rule: #2d2342;
+  --accent: #ff6aa9;
+  --accent-bright: #ff5da2;
+  --blue: #8c8cff;
+  --tint: #1d1530;
+  color-scheme: dark;
+}
+
+/* Токены доступны как утилиты Tailwind: bg-bg, text-ink, text-muted, border-rule ... */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-blue: var(--blue);
+  --color-tint: var(--tint);
+
+  --font-display: "Bricolage Grotesque Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Newsreader Variable", Georgia, "Times New Roman", serif;
+}
+
+/* ------------------------------------------------------------------ */
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.65; /* у засечного текста интерлиньяж чуть больше */
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-bright);
+  color: #fff;
+}
+
+/* Видимый фокус с клавиатуры */
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Ссылки в тексте */
+.prose-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-thickness 0.15s;
+}
+.prose-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Заголовок имени: узкая жирная гротескная начинка Bricolage */
+.name-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 75%;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
+  font-size: clamp(3.6rem, 15.5vw, 11.5rem);
+}
+
+/* Цифры в датах выравниваем табличными */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Пульс у точки "open to work" – единственная фоновая анимация вне главной */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--accent-bright);
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Печать: CV из браузера в PDF (Cmd+P)
+   ------------------------------------------------------------------ */
+@media print {
+  :root,
+  :root[data-theme="dark"] {
+    --bg: #fff;
+    --ink: #1b1330;
+    --muted: #4a4360;
+    --rule: #cfc8df;
+    --accent: #c21e68;
+    --blue: #3d3fe0;
+    --tint: #f1edf9;
+  }
+  body {
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+  .no-print {
+    display: none !important;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .print-avoid-break {
+    break-inside: avoid;
+  }
+}
